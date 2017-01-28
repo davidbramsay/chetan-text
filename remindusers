@@ -1,0 +1,64 @@
+#! /usr/bin/python
+
+from twilio.rest import TwilioRestClient
+import bitly_api
+import datetime
+import pickle
+import random
+import sys
+
+
+messages = [", don't forget to fill out your link! ", ", just a quick reminder to fill out your progress: "]
+
+#load config files
+config = {}
+bitconfig = {}
+execfile("twilio.conf", config)
+execfile("bitly.conf", bitconfig)
+client = TwilioRestClient(config["sid"], config["token"])
+
+print "\n\n>>>>>>>>>>> remindusers run at " + str(datetime.datetime.now()) + "\n\n"
+
+
+#load users
+try:
+    users = pickle.load( open( "participants.p", "rb" ) )
+except (OSError, IOError) as e:
+    print e
+    print "Warning: no participant file found.  exiting..."
+    sys.exit()
+
+
+#send reminder text with twilio *if* no change in today clicks
+c = bitly_api.Connection(access_token=bitconfig['token'])
+for user in users:
+
+    #try to get clicks today
+    try:
+        clickstoday = c.clicks_by_day(shortUrl=user['url'])[0]['clicks'][0]['clicks']
+
+        #see if our earlier clicks number is valid
+        if user['clicks_today'] is None:
+            print "ERROR: bitly click data from earlier for " + \
+                    user['fname'] + " " + user['lname'] + " is corrupt."
+
+        #see if they clicked today
+        elif clickstoday > user['clicks_today']:
+            print user['fname'] + ' ' + user['lname'] + ' has clicked today.'
+
+        #they didn't, so send them a reminder text
+        else:
+            sendmessage = user['fname'] + random.choice(messages) + user['url']
+            phonenum = "+1" + user['phone']
+            print '---- sending reminder to ' + str(user['fname']) + ' ' + str(user['lname']) + ' ----'
+            try:
+                message = client.messages.create(to=phonenum, from_=config["phonenum"], body=sendmessage)
+                print sendmessage
+                print message
+            except Exception as e:
+                print e
+
+    except:
+        print "ERROR: Couldn't read bitly link " + user['url'] + " for " + \
+                user['fname'] + " " + user['lname'] + ", remind by hand."
+

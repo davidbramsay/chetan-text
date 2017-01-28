@@ -1,0 +1,94 @@
+#!/usr/bin/python
+
+import pickle
+import random
+import sys
+from optparse import OptionParser
+
+print "use -w flag to print saved users"
+print "use -r <id> flag to remove a user"
+
+parser = OptionParser(usage="usage: %prog [options]", version="%prog 1.0")
+parser.add_option("-w", action="store_true", dest="show", help="print users in database")
+parser.add_option("-r", "--remove", action="store", dest="removeuser", help="remove user with userid")
+
+(options, args) = parser.parse_args()
+
+IDLENGTH = 16
+
+#load file or warn and initiate a new file
+try:
+    users = pickle.load( open( "participants.p", "rb" ) )
+except (OSError, IOError) as e:
+    print e
+    print "Warning: no participant file found.  Creating a new one..."
+    users = []
+
+
+#check arguments:
+
+#if printing
+if options.show:
+    for user in users:
+        print "ID:" + str(user['id']) + "\t" + str(user['fname']) + " " + str(user['lname']) + \
+            "\t phone:" + str(user['phone']) + "\tday:" + str(user['day']) + "\turl: " + \
+            str(user['url']) + "\tvisits:" + str(user['total_clicks']) + "\tvisits_today:" + str(user['clicks_today'])
+    sys.exit()
+
+#if removing user
+elif options.removeuser:
+    print "removing user with id #" + options.removeuser
+
+    toremove = [index for (index, d) in enumerate(users) if d['id']==options.removeuser]
+    if toremove:
+        for ind in reversed(toremove):
+            print "deleting " + str(users[ind]['fname']) + " " + str(users[ind]['lname'])
+            confirm = raw_input('are you sure? (y/n):')
+            if confirm.lower() in ['y', 'yes']:
+                del users[ind]
+                print "...complete."
+            else:
+                print "...aborted."
+                sys.exit()
+    else:
+        print "Warning: no user with that ID found.... exiting"
+        sys.exit()
+
+#if adding a user
+else:
+    print " -- ADDING A NEW USER --"
+    newperson = {}
+    fname = raw_input('enter new user first name:')
+    lname = raw_input('enter new user last name:')
+    phone = raw_input('enter user phone:')
+    url = raw_input('enter user bit.ly url:')
+
+    try:
+        day = int(raw_input('day of program (default=1, hit enter):'))
+    except:
+        day=1
+
+    newperson['fname'] = fname
+    newperson['lname'] = lname
+    newperson['phone'] = phone
+    newperson['url'] = url
+    newperson['day'] = day
+    newperson['total_clicks'] = 0
+    newperson['clicks_today'] = 0
+
+    newperson['id'] = str(hex(random.getrandbits(4*IDLENGTH))[2:-1])
+    while [1 for user in users if user['id']==newperson['id']]:
+        print '>>> random id ' + newperson['id'] + ' is taken, finding a new one.'
+        newperson['id'] = str(hex(random.getrandbits(4*IDLENGTH))[2:-1])
+
+    users.append(newperson)
+
+
+
+#save file after modifications
+try:
+    pickle.dump(users, open( "participants.p", "wb" ) )
+    print 'user file saved.'
+except (OSError, IOError) as e:
+    print "Error: could not write to file. Try again..."
+    print e
