@@ -26,7 +26,7 @@ you can do so by typing '''./adduser -r <user_id>'''
 Clone this.
 Open a terminal, CD to a directory of choice, and type:
 '''
-git clone https://github.com/dramsay9/chetan-text
+git clone https://github.com/dramsay9/chetan-text.git
 '''
 
 
