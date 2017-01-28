@@ -16,7 +16,7 @@ not it sends another text message defined at the top of the file.
 'ADDUSER' is for adding users, removing users, and viewing the user data.  To
 add a new user, simply type ```./adduser``` and follow the prompts.  To see the
 user data, type ```./adduser -w```.  If you screw up and want to delete a user,
-you can do so by typing ```./adduser -r <user_id>'''
+you can do so by typing ```./adduser -r <user_id>```
 
 
 #Installation
