@@ -14,9 +14,9 @@ if the bit.ly address has been visited that day since the previous text, and if
 not it sends another text message defined at the top of the file.
 
 'ADDUSER' is for adding users, removing users, and viewing the user data.  To
-add a new user, simply type '''./adduser''' and follow the prompts.  To see the
-user data, type '''./adduser -w'''.  If you screw up and want to delete a user,
-you can do so by typing '''./adduser -r <user_id>'''
+add a new user, simply type ```./adduser``` and follow the prompts.  To see the
+user data, type ```./adduser -w```.  If you screw up and want to delete a user,
+you can do so by typing ```./adduser -r <user_id>'''
 
 
 #Installation
@@ -25,9 +25,9 @@ you can do so by typing '''./adduser -r <user_id>'''
 
 Clone this.
 Open a terminal, CD to a directory of choice, and type:
-'''
+```
 git clone https://github.com/dramsay9/chetan-text.git
-'''
+```
 
 
 ##step 2
@@ -38,17 +38,17 @@ Copy/edit/overwrite config files in folder (update bit.ly and twilio API tokens)
 ##step 3
 
 Make sure these files are executable. Go to the folder with the code and type:
-'''
+```
 chmod +x addusers remindusers textusers
-'''
+```
 
 
 ##step 4
 
 Install dependencies.  Go to the folder with the code and type:
-'''
+```
 pip install -r requirements.txt
-'''
+```
 if that fails you should set up an environment, or (hackily) redo that command
 prepended with 'sudo -H'
 
@@ -65,12 +65,12 @@ To set up cron jobs:
 number/asterisk (note the first text is sent at 9a, the second at 2p- you can
 change the two numbers to change the job timing)
 
-'''
+```
 0   9   *   *   *   /path/to/textusers >>
 /path/to/chetan-text/output.log
 0   14   *   *   *   /path/to/remindusers >>
 /path/to/chetan-text/output.log
-'''
+```
 
 the results of the texting can be found in output.log.
 
