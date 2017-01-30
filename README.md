@@ -39,7 +39,7 @@ Copy/edit/overwrite config files in folder (update bit.ly and twilio API tokens)
 
 Make sure these files are executable. Go to the folder with the code and type:
 ```
-chmod +x addusers remindusers textusers
+chmod +x adduser remindusers textusers
 ```
 
 
