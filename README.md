@@ -74,11 +74,19 @@ change the two numbers to change the job timing)
 
 the results of the texting can be found in output.log.
 
+Cron works great on an Ubuntu server, just don't forget:
+(1) Set permissions!
+(2) leave a newline/empty line at the bottom of the cron file (yeah I know)
+(3) don't forget to set the Ubuntu timezone to the correct local timezone:
+```
+sudo timedatectl set-timezone America/New_York
+```
+
 Cron jobs will not work on Mac OSX if the computer is asleep.  You can set your
 computer to wake up so it will execute these jobs at the appropriate times by
 going to Energy Saver and clicking Schedule in the bottom corner.  This is
 slightly hacky, and cron has been consumed by launchd in OSX (which also has
-the ablilty to run the scripts once when the computer is on if a call has been
+the ablilty to run the scripts once the computer is restarted if a call has been
 missed).  Check this out here for an example of how to program launchd and/or
 use GUI tools to handle launchd programming:
 http://superuser.com/questions/126907/how-can-i-get-a-script-to-run-every-day-on-mac-os-x
