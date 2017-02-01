@@ -78,9 +78,13 @@ Cron works great on an Ubuntu server, just don't forget:
 (1) Set permissions!
 (2) leave a newline/empty line at the bottom of the cron file (yeah I know)
 (3) don't forget to set the Ubuntu timezone to the correct local timezone:
+add ```TZ='America/New_York'``` to ```/etc/init/cron.conf```
 ```
 sudo timedatectl set-timezone America/New_York
+ln -s /usr/share/zoneinfo/America/New_York /etc/localtime
+sudo service cron restart
 ```
+
 
 Cron jobs will not work on Mac OSX if the computer is asleep.  You can set your
 computer to wake up so it will execute these jobs at the appropriate times by
