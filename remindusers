@@ -10,11 +10,14 @@ import sys
 
 messages = [", don't forget to fill out your link! ", ", just a quick reminder to fill out your progress: "]
 
+full_path = os.path.realpath(__file__)
+path, filename = os.path.split(full_path)
+
 #load config files
 config = {}
 bitconfig = {}
-execfile("twilio.conf", config)
-execfile("bitly.conf", bitconfig)
+execfile(path + "/twilio.conf", config)
+execfile(path + "/bitly.conf", bitconfig)
 client = TwilioRestClient(config["sid"], config["token"])
 
 print "\n\n>>>>>>>>>>> remindusers run at " + str(datetime.datetime.now()) + "\n\n"
@@ -22,7 +25,7 @@ print "\n\n>>>>>>>>>>> remindusers run at " + str(datetime.datetime.now()) + "\n
 
 #load users
 try:
-    users = pickle.load( open( "participants.p", "rb" ) )
+    users = pickle.load( open(path + "/participants.p", "rb" ) )
 except (OSError, IOError) as e:
     print e
     print "Warning: no participant file found.  exiting..."

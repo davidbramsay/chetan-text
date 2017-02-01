@@ -6,15 +6,19 @@ import datetime
 import pickle
 import random
 import sys
+import os
 
 
-messages = [", please fill out your link here: ", ", let us know how you're feeling here: "]
+messages = [", please fill out your link here: ", ", let us know how you're feeling here: ", ", take 10 seconds to log your progress: "]
+
+full_path = os.path.realpath(__file__)
+path, filename = os.path.split(full_path)
 
 #load config files
 config = {}
 bitconfig = {}
-execfile("twilio.conf", config)
-execfile("bitly.conf", bitconfig)
+execfile(path + "/twilio.conf", config)
+execfile(path + "/bitly.conf", bitconfig)
 client = TwilioRestClient(config["sid"], config["token"])
 
 print "\n\n>>>>>>>>>>> textusers run at " + str(datetime.datetime.now()) + "\n\n"
@@ -22,7 +26,7 @@ print "\n\n>>>>>>>>>>> textusers run at " + str(datetime.datetime.now()) + "\n\n
 
 #load users
 try:
-    users = pickle.load( open( "participants.p", "rb" ) )
+    users = pickle.load( open(path + "/participants.p", "rb" ) )
 except (OSError, IOError) as e:
     print e
     print "Warning: no participant file found.  exiting..."
@@ -69,7 +73,7 @@ print "done."
 
 #save file after modifications
 try:
-    pickle.dump(users, open( "participants.p", "wb" ) )
+    pickle.dump(users, open(path + "/participants.p", "wb" ) )
     print 'user file saved.'
 except (OSError, IOError) as e:
     print "Error: could not write to file. Try again..."
