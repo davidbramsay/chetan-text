@@ -1,4 +1,4 @@
-#What does it do and How do I use it?
+# What does it do and How do I use it?
 
 this keeps track of users, stored in 'participants.p'.  It gives them an ID,
 tracks their names, phone number, a bit.ly URL for each, and visits to that
@@ -19,9 +19,9 @@ user data, type ```./adduser -w```.  If you screw up and want to delete a user,
 you can do so by typing ```./adduser -r <user_id>```
 
 
-#Installation
+# Installation
 
-##step 1
+## step 1
 
 Clone this.
 Open a terminal, CD to a directory of choice, and type:
@@ -30,12 +30,12 @@ git clone https://github.com/dramsay9/chetan-text.git
 ```
 
 
-##step 2
+## step 2
 
 Copy/edit/overwrite config files in folder (update bit.ly and twilio API tokens)
 
 
-##step 3
+## step 3
 
 Make sure these files are executable. Go to the folder with the code and type:
 ```
@@ -43,7 +43,7 @@ chmod +x adduser remindusers textusers
 ```
 
 
-##step 4
+## step 4
 
 Install dependencies.  Go to the folder with the code and type:
 ```
@@ -53,7 +53,7 @@ if that fails you should set up an environment, or (hackily) redo that command
 prepended with 'sudo -H'
 
 
-##step 5
+## step 5
 
 Set up your computer to text automatically in the morning, and send a reminder
 in the afternoon using cron or launchd.
